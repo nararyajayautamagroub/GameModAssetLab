@@ -102,3 +102,11 @@ def test_repository_folder_descriptions():
     assert folders["frontend"]
     assert folders["core"]
     assert folders["platforms"]
+
+
+def test_repository_catalog_uses_current_repository_name():
+    from backend.catalog import repository_folders
+
+    data = repository_folders()
+    assert data["repository"] == "nararyajayautamagroub/GameModAssetLab"
+    assert data["version"] == "5.0.0"
