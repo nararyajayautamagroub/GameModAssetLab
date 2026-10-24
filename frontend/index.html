@@ -18,6 +18,8 @@
 </header>
 
 <nav class="drawer" id="menu" aria-label="Menu utama">
+  <a href="#projectLive">Project Live</a>
+  <a href="#assistant">AI Assistant</a>
   <a href="#account" data-i18n="account">Akun</a>
   <a href="#settings" data-i18n="settings">Pengaturan</a>
   <a href="#inspect" data-i18n="upload_inspect">Upload & Inspect</a>
@@ -35,6 +37,28 @@
     <h1 data-i18n="asset_inspector_exporter">Asset Inspector & Exporter</h1>
     <p data-i18n="hero_desc">Inspect → klasifikasi → pilih → export → download. Dilengkapi akun, Google Login, Settings, 10 bahasa, PWA, dan scraper publik.</p>
   </div>
+
+  <section id="projectLive" aria-labelledby="projectLiveTitle">
+    <div class="section-heading"><div><span class="eyebrow">LIVE PROJECT</span><h2 id="projectLiveTitle">Project Control</h2></div><span id="liveState" class="live-indicator">Memuat status…</span></div>
+    <div class="grid live-grid">
+      <div class="card"><span class="muted">Project ID</span><strong id="liveProjectId">GML-2026-0001</strong></div>
+      <div class="card"><span class="muted">Versi aplikasi</span><strong id="liveVersion">Memuat…</strong></div>
+      <div class="card"><span class="muted">Status API</span><strong id="liveApiState">Memeriksa…</strong></div>
+      <div class="card"><span class="muted">Pembaruan data terakhir</span><strong id="liveUpdatedAt">Belum tersedia</strong></div>
+    </div>
+    <div class="row spaced-top"><button class="secondary" id="refreshProject" type="button">Perbarui status</button><span class="status">Refresh otomatis setiap 30 detik. Waktu berasal dari server API.</span></div>
+    <pre id="projectFeatures" aria-live="polite">Mengambil status proyek…</pre>
+  </section>
+  <section id="assistant" aria-labelledby="assistantTitle">
+    <span class="eyebrow">DEVELOPER ASSISTANT</span><h2 id="assistantTitle">AI Assistant</h2>
+    <p class="status">Asisten aturan bawaan tersedia tanpa API key. Ini belum model generatif/LLM; jawaban dan batasannya ditampilkan apa adanya.</p>
+    <form id="assistantForm">
+      <label for="assistantMessage">Pertanyaan pengembangan</label>
+      <textarea id="assistantMessage" rows="3" maxlength="2000" required placeholder="Contoh: bagaimana memeriksa build yang gagal?"></textarea>
+      <div class="row spaced-top"><button class="action" id="assistantSubmit" type="submit">Tanyakan</button><span id="assistantStatus" class="status" role="status">Siap</span></div>
+    </form>
+    <pre id="assistantReply" aria-live="polite">Jawaban asisten akan muncul di sini.</pre>
+  </section>
 
   <section id="account">
     <h2 data-i18n="account">Akun</h2>
