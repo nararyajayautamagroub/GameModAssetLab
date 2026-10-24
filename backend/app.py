@@ -20,6 +20,7 @@ from backend.i18n_api import router as i18n_router
 from backend.scraper_api import router as scraper_router
 from backend.sprite_api import router as sprite_router
 from backend.template_api import router as template_router
+from backend.project_api import router as project_router
 
 ROOT = Path(__file__).resolve().parent.parent
 FRONTEND = ROOT / "frontend"
@@ -43,6 +44,7 @@ app.include_router(scraper_router)
 app.include_router(auth_router)
 app.include_router(i18n_router)
 app.include_router(gateway_router)
+app.include_router(project_router)
 
 
 @app.get("/", tags=["web"])
