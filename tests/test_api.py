@@ -161,3 +161,14 @@ def test_assistant_uses_configured_ai_provider(monkeypatch):
     assert data["mode"] == "openai_api"
     assert data["reply"] == "Jawaban AI simulasi."
     assert data["external_llm_configured"] is True
+
+
+def test_scraper_strategies_are_transparent_and_bounded():
+    response = request("/api/scraper/strategies")
+    assert response.status_code == 200
+    data = response.json()
+    assert data["strategy_count"] == 10
+    assert data["independent_api_count"] == 0
+    assert len(data["strategies"]) == 10
+    assert data["limits"]["ssrf_protection"] is True
+    assert data["limits"]["authentication_bypass"] is False
