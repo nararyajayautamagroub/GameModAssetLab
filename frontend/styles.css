@@ -81,3 +81,15 @@ button.loading::after{content:"";display:inline-block;width:12px;height:12px;mar
   html{scroll-behavior:auto}
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}
 }
+
+
+.section-heading{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}
+.eyebrow{display:block;color:var(--green-dark);font-size:.72rem;font-weight:900;letter-spacing:.12em;margin-bottom:5px}
+.live-grid .card{display:flex;flex-direction:column;gap:8px;min-width:0}
+.live-grid strong{overflow-wrap:anywhere;font-size:1.02rem}
+.live-indicator{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;border-radius:999px;background:var(--soft);font-weight:800;font-size:.85rem}
+.live-ok{color:var(--green-dark);background:var(--green-soft)}
+.live-error{color:var(--danger);background:color-mix(in srgb,var(--danger) 10%,var(--surface))}
+#assistantForm label{display:block;font-weight:800;margin:8px 0}
+#assistantMessage{width:100%;resize:vertical;min-height:88px}
+#assistantReply{min-height:70px}
