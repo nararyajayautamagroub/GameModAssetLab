@@ -55,6 +55,8 @@ Footer resmi:
     GET /api/repository
     GET /api/repository/tree?prefix=...
     GET /api/repository/folders
+    GET /api/project/status
+    POST /api/project/assistant
 
 Authentication:
 
@@ -71,6 +73,13 @@ Scraper:
 
     GET /api/scraper/fetch?url=...
     GET /api/scraper/crawl?url=...&max_pages=...
+
+## Project ID dan asisten bawaan
+
+- Project ID: `GML-2026-0001`.
+- `GET /api/project/status` mengembalikan versi, status, fitur, dan timestamp UTC saat request diproses.
+- `POST /api/project/assistant` menerima JSON `{"message":"cara memperbaiki error"}` dan memberi panduan berbasis aturan.
+- Asisten bawaan bukan model AI generatif. `external_llm_configured` bernilai `false`; integrasi model eksternal membutuhkan provider, konfigurasi server, pengamanan API key, dan pengujian tersendiri.
 
 ## Scraper CLI
 
