@@ -245,6 +245,37 @@ async function extractSpriteSheet(){
 for(const t of ["strobo","rotator","ledbar"]){
   const card=document.createElement("div");card.className="card";card.innerHTML="<h3>"+t.toUpperCase()+'</h3><div class="row"><a data-i18n="bussid_zip" href="/api/lights/'+t+'/download?platform=bussid">BUSSID ZIP</a><a data-i18n="roblox_zip" href="/api/lights/'+t+'/download?platform=roblox">Roblox ZIP</a><a data-i18n="json_preview" href="/api/lights/'+t+'">JSON Preview</a></div>';byId("lightsGrid").append(card)
 }
+
+async function refreshProjectStatus(){
+  const state=byId("liveState"),apiState=byId("liveApiState"),updated=byId("liveUpdatedAt");
+  state.textContent="Memeriksa…";state.classList.remove("live-error");
+  try{
+    const data=await api("/api/project/status",{timeoutMs:10000});
+    setText("liveProjectId",data.project_id||"Tidak tersedia");
+    setText("liveVersion",data.version||"Tidak tersedia");
+    setText("liveApiState",data.status==="operational"?"Online":"Status: "+String(data.status||"unknown"));
+    setText("liveUpdatedAt",data.generated_at?new Date(data.generated_at).toLocaleString():"Timestamp tidak tersedia");
+    setText("projectFeatures",JSON.stringify({project_id:data.project_id,name:data.name,version:data.version,status:data.status,generated_at:data.generated_at,features:data.features},null,2));
+    state.textContent="● Terhubung";state.classList.add("live-ok");
+  }catch(error){
+    state.textContent="● Tidak terhubung";state.classList.add("live-error");
+    setText("liveApiState","Tidak dapat dijangkau");setText("projectFeatures","Status proyek gagal diambil: "+error.message+"\\nData tidak ditebak atau ditampilkan sebagai data real-time.");
+  }
+}
+async function askProjectAssistant(event){
+  event.preventDefault();
+  const input=byId("assistantMessage"),button=byId("assistantSubmit"),status=byId("assistantStatus"),reply=byId("assistantReply");
+  const message=input.value.trim();
+  if(!message){status.textContent="Tulis pertanyaan terlebih dahulu.";return}
+  button.disabled=true;status.textContent="Memproses…";reply.textContent="Menunggu respons server…";
+  try{
+    const data=await api("/api/project/assistant",{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({message}),timeoutMs:15000});
+    reply.textContent=String(data.reply||data.message||"Server tidak mengembalikan jawaban.");
+    status.textContent=(data.mode||"built_in_rules")==="built_in_rules"?"Selesai · aturan bawaan":"Selesai";
+  }catch(error){reply.textContent="Asisten tidak tersedia: "+error.message;status.textContent="Gagal";}
+  finally{button.disabled=false}
+}
+
 const ACTIONS={
   loginUser,googleLogin,registerUser,logoutUser,logoutAll,saveSettings,changePassword,
   uploadAsset,inspectUploaded,exportSelected,classifyTemplate,loadRepository,loadTree,
@@ -272,3 +303,8 @@ menu.querySelectorAll("a").forEach(link=>link.addEventListener("click",()=>menu.
 window.matchMedia("(prefers-color-scheme: dark)").addEventListener?.("change",()=>{if((localStorage.getItem("asset_lab_theme")||"light")==="system")applyTheme("system")});
 if("serviceWorker" in navigator)navigator.serviceWorker.register("/sw.js").catch(()=>{});
 (async()=>{try{await loadAuthStatus();await loadMe()}catch(e){console.error(e)}loadRepository()})();
+
+byId("refreshProject")?.addEventListener("click",refreshProjectStatus);
+byId("assistantForm")?.addEventListener("submit",askProjectAssistant);
+refreshProjectStatus();
+window.setInterval(refreshProjectStatus,30000);
