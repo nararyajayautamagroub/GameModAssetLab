@@ -79,7 +79,8 @@ Scraper:
 - Project ID: `GML-2026-0001`.
 - `GET /api/project/status` mengembalikan versi, status, fitur, dan timestamp UTC saat request diproses.
 - `POST /api/project/assistant` menerima JSON `{"message":"cara memperbaiki error"}` dan memberi panduan berbasis aturan.
-- Asisten bawaan bukan model AI generatif. `external_llm_configured` bernilai `false`; integrasi model eksternal membutuhkan provider, konfigurasi server, pengamanan API key, dan pengujian tersendiri.
+- Endpoint asisten mendukung AI generatif melalui OpenAI Chat Completions jika `OPENAI_API_KEY` disetel sebagai environment/secret server. `OPENAI_MODEL` opsional, default `gpt-4o-mini`. Tanpa API key atau jika provider gagal, API kembali ke aturan bawaan. Status provider dibaca dinamis dari konfigurasi server; jawaban real-time bergantung pada koneksi internet, ketersediaan provider, dan kuota API.
+- Konfigurasi server: `OPENAI_API_KEY=<secret>` dan opsional `OPENAI_MODEL=gpt-4o-mini`. Jangan menaruh key di frontend, file `.env` yang di-commit, atau log. Provider timeout 12 detik dan error provider tidak dibocorkan ke client.
 
 ## Scraper CLI
 
