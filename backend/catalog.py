@@ -9,7 +9,7 @@ from urllib.request import Request, urlopen
 
 ROOT = Path(__file__).resolve().parent.parent
 GITHUB_REPO = os.getenv(
-    "GITHUB_REPO", "nararyajayautamagroub/modbussid-converter"
+    "GITHUB_REPO", "nararyajayautamagroub/GameModAssetLab"
 )
 GITHUB_API = f"https://api.github.com/repos/{GITHUB_REPO}"
 _REMOTE_CACHE: tuple[float, dict] | None = None
